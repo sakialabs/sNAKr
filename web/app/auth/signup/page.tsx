@@ -53,10 +53,13 @@ export default function SignUpPage() {
     setError(null)
     setMessage(null)
 
+    // Use environment variable for redirect URL (works in both SSR and client)
+    const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
       },
     })
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { Component, ReactNode } from 'react'
-import { useToast } from '@/components/ui/toast'
+import Link from 'next/link'
 
 interface ErrorBoundaryProps {
   children: ReactNode
@@ -116,20 +116,20 @@ function DefaultErrorFallback({ error, reset }: { error: Error; reset: () => voi
           >
             Try again
           </button>
-          <button
-            onClick={() => window.location.href = '/'}
-            className="w-full px-16 py-12 bg-muted text-foreground rounded-lg font-medium hover:bg-muted/80 transition-colors"
+          <Link
+            href="/"
+            className="block w-full px-16 py-12 bg-muted text-foreground rounded-lg font-medium hover:bg-muted/80 transition-colors text-center"
           >
             Go to home
-          </button>
+          </Link>
         </div>
 
         {/* Help Text */}
         <p className="text-center text-sm text-muted-foreground">
           If this keeps happening, try refreshing the page or{' '}
-          <a href="/contact" className="text-primary hover:underline">
+          <Link href="/contact" className="text-primary hover:underline">
             let us know
-          </a>
+          </Link>
           .
         </p>
       </div>
@@ -138,44 +138,12 @@ function DefaultErrorFallback({ error, reset }: { error: Error; reset: () => voi
 }
 
 /**
- * Error Boundary Wrapper Component
+ * Error Boundary Wrapper
  * 
- * Provides a simpler API for using the error boundary.
+ * Wraps the class component for easier use in functional components.
  */
 export function ErrorBoundary({ children, fallback }: ErrorBoundaryProps) {
-  return (
-    <ErrorBoundaryClass fallback={fallback}>
-      {children}
-    </ErrorBoundaryClass>
-  )
+  return <ErrorBoundaryClass fallback={fallback}>{children}</ErrorBoundaryClass>
 }
 
-/**
- * Hook-based Error Boundary
- * 
- * For functional components that need to handle errors.
- * Note: This doesn't catch render errors, only errors in event handlers.
- */
-export function useErrorHandler() {
-  const { showToast } = useToast()
-
-  const handleError = (error: unknown, context?: string) => {
-    // Log error
-    console.error('Error:', error, context)
-
-    // Get error message
-    let message = 'Something went wrong'
-    if (error instanceof Error) {
-      message = error.message
-    } else if (typeof error === 'string') {
-      message = error
-    }
-
-    // Show toast notification
-    showToast(message, 'error')
-
-    // TODO: Send to error tracking service in production
-  }
-
-  return { handleError }
-}
+export default ErrorBoundary
