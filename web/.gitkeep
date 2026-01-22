@@ -1,0 +1,9 @@
+# Web Directory
+
+This directory contains the Next.js frontend for sNAKr.
+
+## Structure
+- `/app` - Next.js app directory
+- `/components` - React components
+- `/lib` - Utility functions and API client
+- `/public` - Static assets

@@ -1,0 +1,76 @@
+# ============================================
+# sNAKr - Minimal Docker Compose
+# ============================================
+# This provides services that Supabase doesn't:
+# - Redis (for Celery message broker)
+# - Celery Worker (for async tasks)
+#
+# Supabase provides:
+# - PostgreSQL (via supabase start)
+# - Auth, Storage, Realtime
+#
+# Usage:
+#   docker-compose up -d     # Start Redis & Celery
+#   docker-compose down      # Stop services
+#   docker-compose logs -f   # View logs
+# ============================================
+
+services:
+  # Redis - Message broker for Celery
+  redis:
+    image: redis:7-alpine
+    container_name: snakr-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - snakr
+
+  # Celery Worker - Background task processing
+  celery:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    container_name: snakr-celery
+    restart: unless-stopped
+    command: celery -A celery_app worker --loglevel=info --queues=receipts,inventory
+    environment:
+      # Supabase connection (from local instance)
+      SUPABASE_URL: ${SUPABASE_URL:-http://host.docker.internal:54321}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      SUPABASE_JWT_SECRET: ${SUPABASE_JWT_SECRET}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@host.docker.internal:54322/postgres}
+      
+      # Redis/Celery
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      REDIS_URL: redis://redis:6379/0
+      
+      # Environment
+      ENVIRONMENT: development
+      LOG_LEVEL: INFO
+    volumes:
+      - ./api:/app
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - snakr
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  redis_data:
+    name: snakr-redis-data
+
+networks:
+  snakr:
+    name: snakr-network
+    driver: bridge

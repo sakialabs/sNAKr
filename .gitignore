@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/ - Commented out to allow mobile/lib and web/lib folders
 lib64/
 parts/
 sdist/
@@ -25,6 +25,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Python lib folders only (not JS/TS lib folders)
+api/lib/
+*.pyc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -205,3 +209,99 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ============================================
+# sNAKr MVP Project Specific
+# ============================================
+
+# Node.js / Next.js Frontend
+node_modules/
+.next/
+out/
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+**/.env.production
+api/.env.production
+web/.env.production
+mobile/.env.production
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+postgres-data/
+pgdata/
+
+# Receipt uploads (local storage)
+uploads/
+receipts/
+receipt-uploads/
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# GitHub
+.github/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage/
+*.cover
+
+# ML Models and embeddings cache
+models/
+embeddings-cache/
+*.pkl
+*.joblib
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+
+# Supabase
+.branches
+.temp
+supabase/.branches
+supabase/.temp
+supabase/functions/.env

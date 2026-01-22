@@ -1,0 +1,8 @@
+# Tests Directory
+
+This directory contains integration and end-to-end tests for sNAKr.
+
+## Structure
+- `/integration` - Integration tests across API and services
+- `/e2e` - End-to-end tests for user flows
+- `/fixtures` - Test data and fixtures

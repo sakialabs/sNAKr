@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* sNAKr Light Mode Colors */
+    --background: 0 0% 100%; /* #FFFFFF */
+    --foreground: 222 84% 11%; /* #0F172A - Ink 900 */
+    
+    --surface: 210 40% 98%; /* #F8FAFC */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 222 84% 11%; /* #0F172A */
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 11%;
+    
+    /* Primary = Grape 600 */
+    --primary: 280 57% 41%; /* #6B2FA0 */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary text = Ink 700 */
+    --secondary: 215 25% 27%; /* #334155 */
+    --secondary-foreground: 222 84% 11%;
+    
+    /* Muted text = Ink 500 */
+    --muted: 215 20% 47%; /* #64748B */
+    --muted-foreground: 215 20% 47%;
+    
+    /* Accent = Grape 100 (subtle) */
+    --accent: 270 100% 96%; /* #F3EEFF */
+    --accent-foreground: 280 57% 41%;
+    
+    /* Destructive = Danger */
+    --destructive: 0 73% 51%; /* #DC2626 */
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border = #E2E8F0 */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    
+    /* Ring = Grape 600 */
+    --ring: 280 57% 41%;
+    
+    --radius: 0.75rem; /* 12px for buttons */
+  }
+
+  .dark {
+    /* sNAKr Dark Mode Colors */
+    --background: 270 75% 3%; /* #0B0610 */
+    --foreground: 210 40% 98%; /* #F8FAFC */
+    
+    --surface: 270 60% 6%; /* #12081B */
+    --card: 270 55% 9%; /* #160A22 */
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 270 55% 9%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Primary = Grape 400 */
+    --primary: 270 80% 68%; /* #A56BEE */
+    --primary-foreground: 270 75% 3%;
+    
+    /* Secondary text = #E2E8F0 */
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Muted text = #94A3B8 */
+    --muted: 215 20% 65%;
+    --muted-foreground: 215 20% 65%;
+    
+    /* Accent = Grape 900 (subtle) */
+    --accent: 280 59% 14%; /* #2A0A3D */
+    --accent-foreground: 270 80% 68%;
+    
+    /* Destructive = Danger */
+    --destructive: 0 73% 51%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Border = #2B1638 */
+    --border: 280 40% 15%;
+    --input: 280 40% 15%;
+    
+    /* Ring = Grape 400 */
+    --ring: 270 80% 68%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

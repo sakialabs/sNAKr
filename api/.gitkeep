@@ -1,0 +1,8 @@
+# API Directory
+
+This directory contains the FastAPI backend for sNAKr.
+
+## Structure
+- `/app` - Application code
+- `/tests` - API-specific tests
+- `/migrations` - Database migrations (Alembic)
