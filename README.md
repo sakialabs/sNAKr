@@ -2,9 +2,11 @@
 
 **Stay stocked. Waste less.**
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tech Stack](https://img.shields.io/badge/stack-FastAPI%20%7C%20Next.js%20%7C%20Supabase-green.svg)](docs/README.md)
-[![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)](docs/tasks.md)
+[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E.svg)](https://supabase.com/)
 
 sNAKr is a people-first app for shared household inventory. It learns from receipts, keeps tracking human with fuzzy stock states, and helps your home restock with less stress, less waste, and fewer "how are we out again?" moments.
 
