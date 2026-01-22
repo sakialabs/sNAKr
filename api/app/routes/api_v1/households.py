@@ -27,6 +27,7 @@ import logging
 
 from app.models import (
     HouseholdCreate,
+    HouseholdUpdate,
     Household,
     InvitationCreate,
     InvitationResponse,
@@ -117,7 +118,7 @@ async def create_household(
 
 @router.get(
     "",
-    response_model=list[Household],
+    response_model=Dict[str, Any],
     status_code=status.HTTP_200_OK,
     summary="Get user's households",
     description="""
@@ -158,7 +159,7 @@ async def create_household(
 )
 async def get_households(
     user: Dict[str, Any] = Depends(get_current_user)
-) -> list[Household]:
+) -> Dict[str, Any]:
     """
     Get all households for the authenticated user
     
@@ -166,7 +167,7 @@ async def get_households(
         user: Current authenticated user from JWT token
         
     Returns:
-        List of households the user belongs to
+        Dictionary with households list and total count
         
     Raises:
         AuthenticationError: If user is not authenticated
@@ -178,7 +179,163 @@ async def get_households(
     households = await household_service.get_user_households(user_id)
     
     logger.info(f"Found {len(households)} households for user {user_id}")
-    return households
+    return {
+        "households": households,
+        "total": len(households)
+    }
+
+
+@router.get(
+    "/{household_id}",
+    response_model=Dict[str, Any],
+    status_code=status.HTTP_200_OK,
+    summary="Get household details",
+    description="""
+    Get detailed information about a specific household including members.
+    
+    **Authentication:** Required (Supabase JWT)
+    
+    **Authorization:** Must be a member of the household
+    
+    **Rate Limit:** 100 requests/minute per user
+    
+    **Example Response:**
+    ```json
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Smith Family",
+      "created_at": "2024-01-21T12:00:00Z",
+      "updated_at": "2024-01-21T12:00:00Z",
+      "members": [
+        {
+          "id": "member-uuid",
+          "user_id": "user-uuid",
+          "role": "admin",
+          "joined_at": "2024-01-21T12:00:00Z"
+        }
+      ],
+      "member_count": 1,
+      "admin_count": 1
+    }
+    ```
+    
+    **Errors:**
+    - `401 Unauthorized` - Missing or invalid authentication token
+    - `403 Forbidden` - User is not a member of the household
+    - `404 Not Found` - Household not found
+    - `429 Too Many Requests` - Rate limit exceeded
+    - `500 Internal Server Error` - Database or server error
+    """,
+)
+async def get_household(
+    household_id: str = Path(..., description="Household UUID"),
+    user: Dict[str, Any] = Depends(get_current_user)
+) -> Dict[str, Any]:
+    """
+    Get household details by ID
+    
+    Args:
+        household_id: Household UUID
+        user: Current authenticated user from JWT token
+        
+    Returns:
+        Household details with members
+        
+    Raises:
+        AuthenticationError: If user is not authenticated
+        AuthorizationError: If user is not a member
+        NotFoundError: If household not found
+    """
+    user_id = user.get("sub")
+    logger.info(f"Fetching household {household_id} for user {user_id}")
+    
+    household_service = HouseholdService()
+    household = await household_service.get_household_by_id(household_id, user_id)
+    
+    logger.info(f"Retrieved household {household_id}")
+    return household
+
+
+@router.patch(
+    "/{household_id}",
+    response_model=Household,
+    status_code=status.HTTP_200_OK,
+    summary="Update household",
+    description="""
+    Update a household's name (admin only).
+    
+    **Authentication:** Required (Supabase JWT)
+    
+    **Authorization:** Admin role required
+    
+    **Rate Limit:** 100 requests/minute per user
+    """,
+)
+async def update_household(
+    household_id: str = Path(..., description="Household UUID"),
+    household_data: HouseholdUpdate = ...,
+    user: Dict[str, Any] = Depends(get_current_user)
+) -> Household:
+    """
+    Update a household's name
+    
+    Args:
+        household_id: Household UUID
+        household_data: Updated household data
+        user: Current authenticated user from JWT token
+        
+    Returns:
+        Updated household
+    """
+    user_id = user.get("sub")
+    logger.info(f"Updating household {household_id} for user {user_id}")
+    
+    household_service = HouseholdService()
+    household = await household_service.update_household(
+        household_id=household_id,
+        name=household_data.name,
+        user_id=user_id
+    )
+    
+    logger.info(f"Household {household_id} updated successfully")
+    return household
+
+
+@router.delete(
+    "/{household_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete household",
+    description="""
+    Delete a household (admin only).
+    
+    **Authentication:** Required (Supabase JWT)
+    
+    **Authorization:** Admin role required
+    
+    **Rate Limit:** 100 requests/minute per user
+    """,
+)
+async def delete_household(
+    household_id: str = Path(..., description="Household UUID"),
+    user: Dict[str, Any] = Depends(get_current_user)
+) -> None:
+    """
+    Delete a household
+    
+    Args:
+        household_id: Household UUID
+        user: Current authenticated user from JWT token
+    """
+    user_id = user.get("sub")
+    logger.info(f"Deleting household {household_id} for user {user_id}")
+    
+    household_service = HouseholdService()
+    await household_service.delete_household(
+        household_id=household_id,
+        user_id=user_id
+    )
+    
+    logger.info(f"Household {household_id} deleted successfully")
 
 
 @router.post(

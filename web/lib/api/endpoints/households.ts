@@ -55,8 +55,8 @@ export async function updateHousehold(
 /**
  * Delete a household (admin only)
  */
-export async function deleteHousehold(householdId: string): Promise<SuccessResponse> {
-  return apiClient.delete<SuccessResponse>(`/households/${householdId}`)
+export async function deleteHousehold(householdId: string): Promise<void> {
+  await apiClient.delete(`/households/${householdId}`)
 }
 
 // ============================================================================
@@ -95,4 +95,39 @@ export async function removeMember(
   memberId: string
 ): Promise<SuccessResponse> {
   return apiClient.delete<SuccessResponse>(`/households/${householdId}/members/${memberId}`)
+}
+
+// ============================================================================
+// Invitation Management
+// ============================================================================
+
+/**
+ * Create an invitation for a household
+ */
+export async function createInvitation(
+  householdId: string,
+  data: { email: string; role: 'member' | 'admin' }
+): Promise<any> {
+  return apiClient.post<any>(`/households/${householdId}/invitations`, { body: data })
+}
+
+/**
+ * Get all invitations for a household
+ */
+export async function getHouseholdInvitations(householdId: string): Promise<any> {
+  return apiClient.get<any>(`/households/${householdId}/invitations`)
+}
+
+/**
+ * Get invitation details by token (public endpoint)
+ */
+export async function getInvitationByToken(token: string): Promise<any> {
+  return apiClient.get<any>(`/invitations/${token}`, { skipAuth: true })
+}
+
+/**
+ * Accept an invitation
+ */
+export async function acceptInvitation(token: string): Promise<any> {
+  return apiClient.post<any>('/invitations/accept', { body: { token } })
 }

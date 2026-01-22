@@ -38,15 +38,43 @@ This starts:
 
 ### 3. Start Redis & Celery
 
+The API uses Docker for background task processing. You can choose between two build options:
+
+**LITE Build (Recommended for Development)**
+- Build time: 5-10 minutes
+- Excludes ML dependencies (sentence-transformers, numpy)
+- Perfect for most development work
+
+**FULL Build**
+- Build time: 20-40 minutes
+- Includes all ML dependencies
+- Required for prediction features
+
 ```bash
-docker-compose up -d
+# Interactive setup (prompts you to choose)
+./scripts/setup/setup.sh              # Linux/Mac
+.\scripts\setup\setup.ps1             # Windows
+
+# Or specify build type
+./scripts/setup/setup.sh --lite       # Linux/Mac
+.\scripts\setup\setup.ps1 -Lite       # Windows
 ```
 
 This starts:
 - Redis (port 6379, Celery message broker)
 - Celery Worker (async tasks)
 
-See [DOCKER_SETUP.md](../DOCKER_SETUP.md) for details.
+**Manual build (if needed):**
+```bash
+# Lite build
+INSTALL_ML=false docker-compose up -d --build
+
+# Full build
+INSTALL_ML=true docker-compose up -d --build
+```
+
+**Switching builds:**
+To switch between lite/full, just run the setup script again with your desired option.
 
 ### 3. Set up the API (FastAPI)
 
@@ -551,7 +579,84 @@ supabase start
 supabase db reset
 ```
 
-See [DOCKER_SETUP.md](../DOCKER_SETUP.md) for more details.
+---
+
+## Docker Build Options
+
+The API uses a unified Dockerfile with build arguments to control dependencies.
+
+### Build Types
+
+| Type | Build Time | ML Dependencies | Use Case |
+|------|-----------|-----------------|----------|
+| **LITE** | 5-10 min | ❌ No | Development, testing, non-ML features |
+| **FULL** | 20-40 min | ✅ Yes | Prediction features, production |
+
+### Using Setup Scripts (Recommended)
+
+The setup scripts handle everything automatically:
+
+```bash
+# Interactive mode - prompts you to choose
+./scripts/setup/setup.sh              # Linux/Mac
+.\scripts\setup\setup.ps1             # Windows
+
+# Lite build (fast)
+./scripts/setup/setup.sh --lite       # Linux/Mac
+.\scripts\setup\setup.ps1 -Lite       # Windows
+
+# Full build (with ML)
+./scripts/setup/setup.sh --full       # Linux/Mac
+.\scripts\setup\setup.ps1             # Windows
+```
+
+### Manual Docker Commands
+
+If you need to build manually:
+
+```bash
+# Lite build
+INSTALL_ML=false docker-compose up -d --build
+
+# Full build  
+INSTALL_ML=true docker-compose up -d --build
+
+# Rebuild without cache
+docker-compose build --no-cache
+```
+
+### How It Works
+
+The `api/Dockerfile.dev` uses a build argument to conditionally install ML dependencies:
+
+```dockerfile
+ARG INSTALL_ML=true
+
+# Core dependencies (always installed)
+RUN pip install fastapi uvicorn pydantic ...
+
+# ML dependencies (conditional)
+RUN if [ "$INSTALL_ML" = "true" ]; then \
+        pip install sentence-transformers numpy; \
+    fi
+```
+
+### Switching Between Builds
+
+To switch from lite to full (or vice versa):
+
+1. Stop services: `docker-compose down`
+2. Run setup with desired option: `.\scripts\setup\setup.ps1 -Lite`
+
+The setup script will rebuild with the new configuration.
+
+### Production Builds
+
+For production, always use the full build with `Dockerfile.prod`:
+
+```bash
+docker build --build-arg INSTALL_ML=true -f api/Dockerfile.prod -t snakr-api .
+```
 
 ---
 

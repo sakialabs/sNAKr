@@ -50,8 +50,8 @@ export function DropdownMenu({ trigger, children, align = 'end', className }: Dr
   }
 
   return (
-    <div ref={dropdownRef} className="relative inline-block">
-      <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
+    <div ref={dropdownRef} className="relative block w-full">
+      <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer w-full">
         {trigger}
       </div>
 
@@ -63,13 +63,13 @@ export function DropdownMenu({ trigger, children, align = 'end', className }: Dr
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.15 }}
             className={cn(
-              'absolute z-50 mt-8 min-w-[200px] rounded-card border border-border bg-popover shadow-lg',
+              'absolute z-50 mt-2 min-w-[200px] rounded-card border border-border bg-card shadow-lg',
               alignmentClasses[align],
               className
             )}
           >
             <div
-              className="py-4"
+              className="py-1"
               onClick={() => setIsOpen(false)}
             >
               {children}
@@ -101,9 +101,9 @@ export function DropdownMenuItem({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        'w-full px-12 py-8 text-left text-sm transition-colors',
-        'hover:bg-accent focus:bg-accent focus:outline-none',
-        active && 'bg-accent font-medium',
+        'w-full px-3 py-2 text-left text-sm transition-colors',
+        'hover:bg-grape-primary/[0.06] dark:hover:bg-white/[0.06] focus:bg-grape-primary/[0.06] dark:focus:bg-white/[0.06] focus:outline-none',
+        active && 'bg-grape-primary/10 dark:bg-grape-primary/20 font-medium',
         disabled && 'opacity-50 cursor-not-allowed hover:bg-transparent',
         className
       )}
@@ -118,7 +118,7 @@ interface DropdownMenuSeparatorProps {
 }
 
 export function DropdownMenuSeparator({ className }: DropdownMenuSeparatorProps) {
-  return <div className={cn('my-4 h-px bg-border', className)} />
+  return <div className={cn('my-1 h-px bg-border', className)} />
 }
 
 interface DropdownMenuLabelProps {
@@ -128,7 +128,7 @@ interface DropdownMenuLabelProps {
 
 export function DropdownMenuLabel({ children, className }: DropdownMenuLabelProps) {
   return (
-    <div className={cn('px-12 py-6 text-xs font-semibold text-muted uppercase tracking-wide', className)}>
+    <div className={cn('px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide', className)}>
       {children}
     </div>
   )

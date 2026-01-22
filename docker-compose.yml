@@ -9,6 +9,10 @@
 # - PostgreSQL (via supabase start)
 # - Auth, Storage, Realtime
 #
+# Build Options:
+#   INSTALL_ML=true  docker-compose up -d --build  # Full build with ML
+#   INSTALL_ML=false docker-compose up -d --build  # Lite build (faster)
+#
 # Usage:
 #   docker-compose up -d     # Start Redis & Celery
 #   docker-compose down      # Stop services
@@ -38,6 +42,8 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile.dev
+      args:
+        INSTALL_ML: ${INSTALL_ML:-true}  # Set to false for lite build
     container_name: snakr-celery
     restart: unless-stopped
     command: celery -A celery_app worker --loglevel=info --queues=receipts,inventory

@@ -23,18 +23,18 @@ export function HouseholdCard({ household }: HouseholdCardProps) {
       transition={{ duration: 0.2 }}
     >
       <Link href={`/households/${household.id}`}>
-        <div className="p-20 border border-input rounded-card bg-card hover:bg-accent transition-colors cursor-pointer">
+        <div className="p-6 border border-input rounded-card bg-card hover:bg-grape-primary/[0.06] dark:hover:bg-white/[0.06] transition-colors cursor-pointer">
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-foreground mb-4">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 {household.name}
               </h3>
-              <p className="text-sm text-muted">
+              <p className="text-sm text-muted-foreground">
                 Created {formattedDate}
               </p>
             </div>
             <svg
-              className="w-20 h-20 text-muted"
+              className="w-5 h-5 text-muted-foreground"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

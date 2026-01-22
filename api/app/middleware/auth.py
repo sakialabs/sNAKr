@@ -1,10 +1,10 @@
 """
 JWT authentication middleware for Supabase
 """
-from fastapi import Request, HTTPException, status
+from fastapi import Request, HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Optional, Dict, Any
-from jose import jwt
+from jose import jwt, JWTError, ExpiredSignatureError
 import logging
 
 from app.core.config import settings
@@ -37,21 +37,32 @@ class JWTMiddleware:
             raise ValueError("SUPABASE_JWT_SECRET not configured")
         
         try:
-            # Decode and verify JWT token
-            payload = jwt.decode(
-                token,
-                settings.SUPABASE_JWT_SECRET,
-                algorithms=["HS256"],
-                audience="authenticated"
-            )
+            # For local Supabase development, we can skip signature verification
+            # In production, you should use proper JWT secret verification
+            if settings.ENVIRONMENT == "development":
+                # Decode without verification for local development
+                # Still need to provide a key, but verification is disabled
+                payload = jwt.decode(
+                    token,
+                    key="",  # Empty key since we're not verifying
+                    options={"verify_signature": False, "verify_aud": False}
+                )
+            else:
+                # Decode and verify JWT token for production
+                payload = jwt.decode(
+                    token,
+                    settings.SUPABASE_JWT_SECRET,
+                    algorithms=["HS256"],
+                    audience="authenticated"
+                )
             
             logger.debug(f"Token verified for user: {payload.get('sub')}")
             return payload
             
-        except jwt.ExpiredSignatureError:
+        except ExpiredSignatureError:
             logger.warning("Token expired")
             raise AuthenticationError("Token has expired")
-        except jwt.InvalidTokenError as e:
+        except JWTError as e:
             logger.warning(f"Invalid token: {e}")
             raise AuthenticationError("Invalid authentication token")
         except Exception as e:
@@ -105,7 +116,7 @@ class JWTMiddleware:
 
 
 async def get_current_user(
-    credentials: HTTPAuthorizationCredentials = security
+    credentials: HTTPAuthorizationCredentials = Depends(security)
 ) -> Dict[str, Any]:
     """
     Dependency to get current authenticated user from JWT token
@@ -135,7 +146,7 @@ async def get_current_user(
 
 
 async def get_current_user_id(
-    user: Dict[str, Any] = security
+    user: Dict[str, Any] = Depends(get_current_user)
 ) -> str:
     """
     Dependency to get current user ID from JWT token
@@ -151,19 +162,12 @@ async def get_current_user_id(
         async def protected_route(user_id: str = Depends(get_current_user_id)):
             return {"user_id": user_id}
     """
-    if isinstance(user, HTTPAuthorizationCredentials):
-        # If called directly with credentials
-        token = user.credentials
-        payload = JWTMiddleware.verify_token(token)
-        return JWTMiddleware.get_user_id(payload)
-    else:
-        # If called with user payload
-        return JWTMiddleware.get_user_id(user)
+    return JWTMiddleware.get_user_id(user)
 
 
 async def verify_household_access(
     household_id: str,
-    user: Dict[str, Any] = security
+    user: Dict[str, Any] = Depends(get_current_user)
 ) -> bool:
     """
     Dependency to verify user has access to household

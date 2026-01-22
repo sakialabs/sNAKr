@@ -14,7 +14,7 @@ Complete documentation for shared household inventory intelligence.
 
 ### Specification Documents
 
-The complete MVP spec is in `.kiro/specs/snakr-mvp/`:
+The complete MVP spec is in `.kiro/specs/snakr/`:
 
 - **[Requirements](requirements.md)** - User stories and acceptance criteria
 - **[Design](design.md)** - System architecture and technical design

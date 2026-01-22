@@ -4,85 +4,85 @@
 
 @layer base {
   :root {
-    /* sNAKr Light Mode Colors */
+    /* sNAKr Light Mode - Grape Purple System */
     --background: 0 0% 100%; /* #FFFFFF */
-    --foreground: 222 84% 11%; /* #0F172A - Ink 900 */
+    --foreground: 222 84% 11%; /* #0F172A */
     
     --surface: 210 40% 98%; /* #F8FAFC */
     --card: 0 0% 100%; /* #FFFFFF */
-    --card-foreground: 222 84% 11%; /* #0F172A */
+    --card-foreground: 222 84% 11%;
     
     --popover: 0 0% 100%;
     --popover-foreground: 222 84% 11%;
     
-    /* Primary = Grape 600 */
-    --primary: 280 57% 41%; /* #6B2FA0 */
+    /* Primary = Primary Grape #6A33A8 */
+    --primary: 275 53% 43%; /* #6A33A8 */
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary text = Ink 700 */
+    /* Secondary text */
     --secondary: 215 25% 27%; /* #334155 */
     --secondary-foreground: 222 84% 11%;
     
-    /* Muted text = Ink 500 */
+    /* Muted text */
     --muted: 215 20% 47%; /* #64748B */
     --muted-foreground: 215 20% 47%;
     
-    /* Accent = Grape 100 (subtle) */
-    --accent: 270 100% 96%; /* #F3EEFF */
-    --accent-foreground: 280 57% 41%;
+    /* Accent = Soft Grape #8B5FC7 */
+    --accent: 275 48% 58%; /* #8B5FC7 */
+    --accent-foreground: 0 0% 100%;
     
-    /* Destructive = Danger */
+    /* Destructive = Warm red */
     --destructive: 0 73% 51%; /* #DC2626 */
     --destructive-foreground: 0 0% 100%;
     
-    /* Border = #E2E8F0 */
-    --border: 214 32% 91%;
+    /* Border */
+    --border: 214 32% 91%; /* #E2E8F0 */
     --input: 214 32% 91%;
     
-    /* Ring = Grape 600 */
-    --ring: 280 57% 41%;
+    /* Ring = Primary Grape */
+    --ring: 275 53% 43%;
     
     --radius: 0.75rem; /* 12px for buttons */
   }
 
   .dark {
-    /* sNAKr Dark Mode Colors */
-    --background: 270 75% 3%; /* #0B0610 */
-    --foreground: 210 40% 98%; /* #F8FAFC */
+    /* sNAKr Dark Mode - Grape Night */
+    --background: 270 60% 8%; /* #120B1A - Deep aubergine-black */
+    --foreground: 270 50% 96%; /* #F4ECFA - Soft white */
     
-    --surface: 270 60% 6%; /* #12081B */
-    --card: 270 55% 9%; /* #160A22 */
-    --card-foreground: 210 40% 98%;
+    --surface: 270 55% 10%; /* #1A1026 - Elevated surface */
+    --card: 270 50% 14%; /* #231338 - Card background */
+    --card-foreground: 270 50% 96%;
     
-    --popover: 270 55% 9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 270 50% 14%;
+    --popover-foreground: 270 50% 96%;
     
-    /* Primary = Grape 400 */
-    --primary: 270 80% 68%; /* #A56BEE */
-    --primary-foreground: 270 75% 3%;
+    /* Primary = Primary Grape #6A33A8 (same in dark) */
+    --primary: 275 53% 43%; /* #6A33A8 */
+    --primary-foreground: 0 0% 100%;
     
-    /* Secondary text = #E2E8F0 */
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary text = #C9B3E6 */
+    --secondary: 270 45% 80%; /* #C9B3E6 */
+    --secondary-foreground: 270 50% 96%;
     
-    /* Muted text = #94A3B8 */
-    --muted: 215 20% 65%;
-    --muted-foreground: 215 20% 65%;
+    /* Muted text = #9A86B5 */
+    --muted: 270 25% 62%; /* #9A86B5 */
+    --muted-foreground: 270 25% 62%;
     
-    /* Accent = Grape 900 (subtle) */
-    --accent: 280 59% 14%; /* #2A0A3D */
-    --accent-foreground: 270 80% 68%;
+    /* Accent = Soft Grape */
+    --accent: 275 48% 58%; /* #8B5FC7 */
+    --accent-foreground: 0 0% 100%;
     
-    /* Destructive = Danger */
+    /* Destructive = Warm red */
     --destructive: 0 73% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 270 50% 96%;
     
-    /* Border = #2B1638 */
-    --border: 280 40% 15%;
-    --input: 280 40% 15%;
+    /* Border = rgba(106, 51, 168, 0.35) */
+    --border: 275 53% 43% / 0.35;
+    --input: 275 53% 43% / 0.35;
     
-    /* Ring = Grape 400 */
-    --ring: 270 80% 68%;
+    /* Ring = Primary Grape */
+    --ring: 275 53% 43%;
   }
 }
 

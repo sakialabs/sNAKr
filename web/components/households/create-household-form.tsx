@@ -72,7 +72,7 @@ export function CreateHouseholdForm({ onSuccess, onCancel }: CreateHouseholdForm
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-16">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <Input
         label="Household Name"
         type="text"
@@ -85,7 +85,7 @@ export function CreateHouseholdForm({ onSuccess, onCancel }: CreateHouseholdForm
         maxLength={100}
       />
 
-      <div className="flex gap-12 justify-end">
+      <div className="flex gap-3 justify-end">
         {onCancel && (
           <Button
             type="button"

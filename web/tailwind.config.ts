@@ -50,41 +50,37 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // sNAKr brand colors - Grape (primary)
+        // sNAKr Grape Purple System (Logo-Matched)
         grape: {
-          100: "#F3EEFF",
-          200: "#E3D6FD",
-          300: "#C6A2F7",
-          400: "#A56BEE",
-          500: "#8A4BD6",
-          600: "#6B2FA0",
-          700: "#4F1A73",
-          800: "#3B0F57",
-          900: "#2A0A3D",
+          primary: "#6A33A8",    // Primary Grape - hero purple
+          deep: "#652FA4",       // Deep Grape - hover states
+          shadow: "#622CA1",     // Shadow Grape - borders, outlines
+          soft: "#8B5FC7",       // Soft Grape - secondary, highlights
+          hover: "#7A3FC2",      // Dark mode hover
+          pressed: "#5B2C91",    // Dark mode pressed
         },
-        // Apple accent (green)
-        apple: {
-          300: "#A7E4C2",
-          600: "#2E8B57",
+        // Leaf Green Accent (from grape stem)
+        leaf: {
+          DEFAULT: "#92C22D",    // Use sparingly for positive signals
         },
-        // Strawberry accent (pink)
-        strawberry: {
-          300: "#F6A7C1",
-          600: "#D72661",
+        // Dark Mode Surfaces
+        dark: {
+          bg: "#120B1A",         // App background (deep aubergine-black)
+          surface: "#1A1026",    // Elevated surface
+          card: "#231338",       // Card background
+          cardActive: "#2E1B4A", // Selected/active card
         },
-        // Neutrals (Ink)
-        ink: {
-          100: "#F1F5F9",
-          300: "#CBD5E1",
-          500: "#64748B",
-          700: "#334155",
-          900: "#0F172A",
+        // Dark Mode Text
+        darkText: {
+          primary: "#F4ECFA",    // Soft white
+          secondary: "#C9B3E6",  // Secondary text
+          muted: "#9A86B5",      // Muted/meta text
         },
         // Utility colors
-        success: "#16A34A",
-        warning: "#F59E0B",
-        danger: "#DC2626",
-        info: "#2563EB",
+        success: "#92C22D",      // Leaf green
+        warning: "#F59E0B",      // Soft amber
+        danger: "#DC2626",       // Warm red
+        info: "#6A33A8",         // Primary grape
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -97,14 +93,9 @@ const config: Config = {
         chip: "999px",
       },
       spacing: {
-        // sNAKr spacing scale
-        '4': '4px',
-        '8': '8px',
-        '12': '12px',
-        '16': '16px',
-        '24': '24px',
-        '32': '32px',
-        '48': '48px',
+        // Keep default Tailwind spacing and add custom ones
+        '18': '4.5rem',
+        '88': '22rem',
       },
       maxWidth: {
         // sNAKr max content width

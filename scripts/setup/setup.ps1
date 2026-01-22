@@ -1,8 +1,37 @@
 # sNAKr Setup Script for Windows
 # This script sets up the development environment
 
+param(
+    [switch]$Lite  # Use lite build (faster, no ML)
+)
+
 Write-Host "🍇 sNAKr Setup Script" -ForegroundColor Magenta
 Write-Host "=====================`n" -ForegroundColor Magenta
+
+# Ask user for build type if not specified
+if (-not $Lite) {
+    Write-Host "Choose your build type:" -ForegroundColor Cyan
+    Write-Host "  [1] LITE - Fast build without ML dependencies (5-10 min) - Recommended for development" -ForegroundColor Yellow
+    Write-Host "  [2] FULL - Complete build with ML dependencies (20-40 min)" -ForegroundColor Yellow
+    Write-Host ""
+    $choice = Read-Host "Enter your choice (1 or 2)"
+    
+    if ($choice -eq "1") {
+        $Lite = $true
+        Write-Host "✓ Selected: LITE build" -ForegroundColor Green
+    } else {
+        Write-Host "✓ Selected: FULL build" -ForegroundColor Green
+    }
+    Write-Host ""
+}
+
+if ($Lite) {
+    Write-Host "Build Mode: LITE (no ML dependencies)" -ForegroundColor Yellow
+    $env:INSTALL_ML = "false"
+} else {
+    Write-Host "Build Mode: FULL (includes ML dependencies)" -ForegroundColor Yellow
+    $env:INSTALL_ML = "true"
+}
 
 # Check Docker
 Write-Host "Checking Docker..." -ForegroundColor Cyan
@@ -46,7 +75,11 @@ if (Test-Path ".env") {
 
 # Build containers
 Write-Host "`nBuilding Docker containers..." -ForegroundColor Cyan
-Write-Host "This may take a few minutes on first run..." -ForegroundColor Yellow
+if ($Lite) {
+    Write-Host "Building LITE version (5-10 minutes)..." -ForegroundColor Yellow
+} else {
+    Write-Host "Building FULL version (20-40 minutes)..." -ForegroundColor Yellow
+}
 docker-compose build
 if ($LASTEXITCODE -eq 0) {
     Write-Host "✓ Containers built successfully" -ForegroundColor Green

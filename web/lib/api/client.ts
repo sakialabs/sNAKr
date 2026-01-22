@@ -22,6 +22,10 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 const API_VERSION = 'v1'
 const API_PREFIX = `/api/${API_VERSION}`
 
+// Health check state
+let lastHealthCheck: { timestamp: number; isHealthy: boolean } | null = null
+const HEALTH_CHECK_CACHE_MS = 30000 // Cache health check for 30 seconds
+
 // ============================================================================
 // Error Classes
 // ============================================================================
@@ -91,6 +95,7 @@ export interface RequestOptions {
   formData?: FormData
   idempotencyKey?: string
   signal?: AbortSignal
+  skipAuth?: boolean
 }
 
 // ============================================================================
@@ -104,6 +109,42 @@ class APIClient {
   constructor(baseURL: string = API_BASE_URL, apiPrefix: string = API_PREFIX) {
     this.baseURL = baseURL
     this.apiPrefix = apiPrefix
+  }
+
+  /**
+   * Check if the API server is healthy
+   */
+  private async checkHealth(): Promise<boolean> {
+    // Return cached result if recent
+    if (lastHealthCheck && Date.now() - lastHealthCheck.timestamp < HEALTH_CHECK_CACHE_MS) {
+      return lastHealthCheck.isHealthy
+    }
+
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
+
+      const response = await fetch(`${this.baseURL}/health`, {
+        method: 'GET',
+        signal: controller.signal,
+      })
+
+      clearTimeout(timeoutId)
+      const isHealthy = response.ok
+
+      lastHealthCheck = {
+        timestamp: Date.now(),
+        isHealthy,
+      }
+
+      return isHealthy
+    } catch {
+      lastHealthCheck = {
+        timestamp: Date.now(),
+        isHealthy: false,
+      }
+      return false
+    }
   }
 
   /**
@@ -148,10 +189,12 @@ class APIClient {
       headers['Content-Type'] = 'application/json'
     }
 
-    // Add authentication token
-    const token = await this.getAuthToken()
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`
+    // Add authentication token (unless skipAuth is true)
+    if (!options.skipAuth) {
+      const token = await this.getAuthToken()
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
     }
 
     // Add idempotency key if provided
@@ -258,8 +301,15 @@ class APIClient {
         throw error
       }
 
-      // Handle network errors
+      // Handle network errors - check if server is down
       if (error instanceof TypeError) {
+        // Try health check to provide better error message
+        const isHealthy = await this.checkHealth()
+        if (!isHealthy) {
+          throw new ServerError(
+            'The backend server is not responding. Please make sure it is running on port 8000.'
+          )
+        }
         throw new ServerError('Network error: Unable to connect to server')
       }
 
@@ -355,10 +405,30 @@ export function isAPIError(error: unknown): error is APIError {
  */
 export function getErrorMessage(error: unknown): string {
   if (isAPIError(error)) {
+    // Make server not responding errors more user-friendly
+    if (error.message.includes('not responding') || error.message.includes('make sure it is running')) {
+      return "The backend server isn't running. Please start it and refresh the page."
+    }
+    
+    // Make network errors more user-friendly
+    if (error.message.includes('Network error') || error.message.includes('Unable to connect')) {
+      return "We're having trouble connecting to the server. Please check your connection and try again."
+    }
+    
+    // Make RLS errors more user-friendly
+    if (error.message.includes('row-level security') || error.message.includes('RLS')) {
+      return "We couldn't complete that action right now. Please try again or contact support if the issue persists."
+    }
+    
     return error.message
   }
   
   if (error instanceof Error) {
+    // Make network errors more user-friendly
+    if (error.message.includes('Network error') || error.message.includes('Unable to connect')) {
+      return "We're having trouble connecting to the server. Please check your connection and try again."
+    }
+    
     return error.message
   }
   

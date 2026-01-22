@@ -426,8 +426,9 @@ All migrations include comprehensive verification scripts in `supabase/migration
 
 ```bash
 # Verify all tables
-docker exec supabase_db_snakr-mvp psql -U postgres -d postgres \
+docker exec supabase_db_snakr psql -U postgres -d postgres \
   -f /tmp/verify/households.sql
+```
 
 # Or use Supabase CLI
 supabase db psql < supabase/migrations/verify/households.sql

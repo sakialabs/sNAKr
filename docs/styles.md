@@ -7,89 +7,152 @@ The UI should feel clean and light, with grape-forward accents and playful momen
 
 - Primary emoji: 🦝
 - Hero fruit: 🍇
-- Accent fruits: 🍎 🍓
+- Accent: 🌿 Leaf Green
 - Mood: cozy tech, not sterile
 - Rule: playful inside the app, calm outside the app
 
 ---
 
-## Color system
+## 🎨 Color System - Grape Purple (Logo-Matched)
 
-This palette is designed for accessibility and for twinning with Nimbly without copying it.
-Grapes are the hero. Apple and strawberry are accents only.
+This palette matches the grape logo exactly for instant brand cohesion.
+Feels friendly + smart, not fintech-cold. Scales beautifully to dark mode.
 
-### Core tokens
+### Core Grape Purples
 
-#### Grape
-- Grape 900: `#2A0A3D`
-- Grape 800: `#3B0F57`
-- Grape 700: `#4F1A73`
-- Grape 600: `#6B2FA0`
-- Grape 500: `#8A4BD6`
-- Grape 400: `#A56BEE`
-- Grape 300: `#C6A2F7`
-- Grape 200: `#E3D6FD`
-- Grape 100: `#F3EEFF`
+#### Primary Grape: `#6A33A8`
+The hero purple. Use for:
+- Cards
+- Primary buttons
+- Focus states
+- Active tabs
 
-#### Apple accent
-- Apple 600: `#2E8B57`
-- Apple 300: `#A7E4C2`
+#### Deep Grape: `#652FA4`
+Slightly darker. Use for:
+- Hover states
+- Pressed buttons
+- Active tabs
 
-#### Strawberry accent
-- Strawberry 600: `#D72661`
-- Strawberry 300: `#F6A7C1`
+#### Shadow Grape: `#622CA1`
+Use for:
+- Borders
+- Subtle outlines
+- Elevated card shadows (low opacity)
 
-#### Neutrals
-- Ink 900: `#0F172A`
-- Ink 700: `#334155`
-- Ink 500: `#64748B`
-- Ink 300: `#CBD5E1`
-- Ink 100: `#F1F5F9`
-- White: `#FFFFFF`
-- Black: `#000000`
+#### Soft Grape: `#8B5FC7`
+Use for:
+- Secondary buttons
+- Highlights
+- Badges
+- Selected states in lists
 
-#### Utility
-- Success: `#16A34A`
-- Warning: `#F59E0B`
-- Danger: `#DC2626`
-- Info: `#2563EB`
+### Accent Colors
+
+#### Leaf Green: `#92C22D`
+From the grape stem. Use sparingly for:
+- "Good timing" signals
+- "In stock" indicators
+- Positive signals
+- Subtle success states
+
+**Important:** Purple stays boss. Green is seasoning, not the meal.
+
+### Utility Colors
+
+- Success: `#92C22D` (Leaf Green)
+- Warning: `#F59E0B` (Soft amber, muted)
+- Danger: `#DC2626` (Warm red, reduced saturation)
+- Info: `#6A33A8` (Primary Grape)
 
 ---
 
-## Light mode
+## Light Mode
 
+### Surfaces
 - Background: `#FFFFFF`
 - Surface: `#F8FAFC`
 - Card: `#FFFFFF`
 - Border: `#E2E8F0`
-- Text primary: `#0F172A`
-- Text secondary: `#334155`
-- Muted text: `#64748B`
 
-- Primary action: Grape 600 `#6B2FA0`
-- Primary action hover: Grape 700 `#4F1A73`
-- Primary subtle: Grape 100 `#F3EEFF`
+### Text
+- Primary: `#0F172A`
+- Secondary: `#334155`
+- Muted: `#64748B`
 
-- Accent Apple: Apple 600 `#2E8B57`
-- Accent Strawberry: Strawberry 600 `#D72661`
+### Primary Actions
+- Default: `#6A33A8` (Primary Grape)
+- Hover: `#652FA4` (Deep Grape)
+- Active: `#622CA1` (Shadow Grape)
+- Text: `#FFFFFF`
+
+### Cards
+**Default Card:**
+- Background: `#6A33A8`
+- Text: `#FFFFFF`
+- Border: `rgba(98, 44, 161, 0.4)`
+- Shadow: `0 8px 24px rgba(98, 44, 161, 0.25)`
+
+**Soft Card (non-primary content):**
+- Background: `#8B5FC7`
+- Text: `#FFFFFF`
+- Shadow: lighter, more airy
 
 ---
 
-## Dark mode
+## 🌑 Dark Mode - Grape Night
 
-- Background: `#0B0610`
-- Surface: `#12081B`
-- Card: `#160A22`
-- Border: `#2B1638`
-- Text primary: `#F8FAFC`
-- Text secondary: `#E2E8F0`
-- Muted text: `#94A3B8`
+Dark mode feels like a dim kitchen light at midnight: calm, focused, slightly mischievous.
+Rich, not pitch black. Ink purple > pure black.
 
-- Primary action: Grape 400 `#A56BEE`
-- Primary action hover: Grape 300 `#C6A2F7`
-- Primary subtle: Grape 900 `#2A0A3D`
+### Base Surfaces
+- App Background: `#120B1A` (Deep aubergine-black)
+- Elevated Surface: `#1A1026` (Main content containers)
+- Card Background: `#231338` (Cards float gently)
 
-Accents remain the same but should be used sparingly in dark mode.
+### Text Colors
+- Primary: `#F4ECFA` (Soft white, never pure white)
+- Secondary: `#C9B3E6`
+- Muted/Meta: `#9A86B5`
+
+### Primary Actions
+**Primary Button:**
+- Background: `#6A33A8`
+- Hover: `#7A3FC2`
+- Active: `#5B2C91`
+- Text: `#FFFFFF`
+- Shadow: `0 6px 20px rgba(106, 51, 168, 0.35)`
+
+**Secondary Button:**
+- Background: `transparent`
+- Border: `#6A33A8`
+- Text: `#C9B3E6`
+- Hover bg: `rgba(106, 51, 168, 0.15)`
+
+### Cards & Lists
+**Card:**
+- Background: `#231338`
+- Border: `rgba(106, 51, 168, 0.35)`
+- Shadow: subtle purple glow
+
+**Selected/Active Card:**
+- Background: `#2E1B4A`
+- Border: `#6A33A8`
+
+### States & Feedback
+- Success: `#92C22D` (Leaf Green - use sparingly)
+- Warning: Soft amber, muted
+- Error: Warm red with reduced saturation
+
+---
+
+## Why This Works
+
+✓ Matches the logo exactly → instant brand cohesion
+✓ Feels friendly + smart, not fintech-cold
+✓ Scales well to dark mode
+✓ Pairs beautifully with grapes 🍇 and the raccoon 🦝
+✓ Still serious enough for Samsung / Instacart decks
+✓ Says: "We're playful, but we know what we're doing."
 
 ---
 

@@ -1,12 +1,63 @@
 #!/bin/bash
 # sNAKr Setup Script for Linux/macOS
 # This script sets up the development environment
+#
+# Usage:
+#   ./scripts/setup/setup.sh           # Interactive mode
+#   ./scripts/setup/setup.sh --lite    # Lite build (fast, no ML)
+#   ./scripts/setup/setup.sh --full    # Full build (with ML)
 
 set -e
+
+LITE=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --lite)
+            LITE=true
+            shift
+            ;;
+        --full)
+            LITE=false
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Usage: $0 [--lite|--full]"
+            exit 1
+            ;;
+    esac
+done
 
 echo "🍇 sNAKr Setup Script"
 echo "====================="
 echo ""
+
+# Ask user for build type if not specified
+if [ "$LITE" = false ] && [ $# -eq 0 ]; then
+    echo "Choose your build type:"
+    echo "  [1] LITE - Fast build without ML dependencies (5-10 min) - Recommended for development"
+    echo "  [2] FULL - Complete build with ML dependencies (20-40 min)"
+    echo ""
+    read -p "Enter your choice (1 or 2): " choice
+    
+    if [ "$choice" = "1" ]; then
+        LITE=true
+        echo "✓ Selected: LITE build"
+    else
+        echo "✓ Selected: FULL build"
+    fi
+    echo ""
+fi
+
+if [ "$LITE" = true ]; then
+    echo "Build Mode: LITE (no ML dependencies)"
+    export INSTALL_ML="false"
+else
+    echo "Build Mode: FULL (includes ML dependencies)"
+    export INSTALL_ML="true"
+fi
 
 # Check Docker
 echo "Checking Docker..."
@@ -51,7 +102,11 @@ fi
 # Build containers
 echo ""
 echo "Building Docker containers..."
-echo "This may take a few minutes on first run..."
+if [ "$LITE" = true ]; then
+    echo "Building LITE version (5-10 minutes)..."
+else
+    echo "Building FULL version (20-40 minutes)..."
+fi
 docker-compose build
 echo "✓ Containers built successfully"
 

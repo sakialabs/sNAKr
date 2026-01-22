@@ -1,5 +1,9 @@
+'use client'
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -16,17 +20,30 @@ const sizeMap = {
 
 export function Logo({ size = 'md', showText = true, href = '/', className = '' }: LogoProps) {
   const { width, height, text } = sizeMap[size];
+  const [isShaking, setIsShaking] = useState(false);
+
+  const handleClick = () => {
+    setIsShaking(true);
+    setTimeout(() => setIsShaking(false), 500);
+  };
 
   const content = (
     <div className={`flex items-center gap-3 ${className}`}>
-      <Image
-        src="/logo.png"
-        alt="sNAKr Logo"
-        width={width}
-        height={height}
-        priority
-        className="object-contain"
-      />
+      <motion.div
+        animate={isShaking ? {
+          rotate: [0, -5, 5, -5, 5, 0],
+          transition: { duration: 0.5 }
+        } : {}}
+      >
+        <Image
+          src="/logo.png"
+          alt="sNAKr Logo"
+          width={width}
+          height={height}
+          priority
+          className="object-contain"
+        />
+      </motion.div>
       {showText && (
         <span className={`font-bold ${text} text-foreground`}>
           sNAKr
@@ -37,7 +54,7 @@ export function Logo({ size = 'md', showText = true, href = '/', className = '' 
 
   if (href) {
     return (
-      <Link href={href} className="hover:opacity-80 transition-opacity">
+      <Link href={href} className="hover:opacity-80 transition-opacity" onClick={handleClick}>
         {content}
       </Link>
     );

@@ -14,16 +14,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-medium transition-all rounded-button focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
     
     const variants = {
-      primary: 'bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98]',
-      secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 active:scale-[0.98]',
-      ghost: 'hover:bg-accent hover:text-accent-foreground active:scale-[0.98]',
-      outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground active:scale-[0.98]',
+      primary: 'bg-grape-primary text-white hover:bg-grape-deep active:bg-grape-shadow shadow-[0_6px_20px_rgba(106,51,168,0.25)] hover:shadow-[0_8px_24px_rgba(106,51,168,0.35)] active:scale-[0.98]',
+      secondary: 'bg-transparent border border-grape-primary text-grape-primary hover:bg-grape-primary/10 active:scale-[0.98]',
+      ghost: 'bg-grape-primary/[0.03] hover:bg-grape-primary/[0.06] dark:bg-white/[0.03] dark:hover:bg-white/[0.06] active:scale-[0.98]',
+      outline: 'border border-input bg-background hover:bg-grape-primary/[0.06] dark:hover:bg-white/[0.06] active:scale-[0.98]',
     }
     
     const sizes = {
-      sm: 'px-12 py-6 text-sm',
-      md: 'px-16 py-10 text-base',
-      lg: 'px-20 py-12 text-lg',
+      sm: 'px-3 py-1.5 text-sm',
+      md: 'px-4 py-2 text-base',
+      lg: 'px-5 py-2.5 text-lg',
     }
 
     return (
@@ -37,7 +37,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <>
             <svg
-              className="animate-spin -ml-4 mr-8 h-16 w-16"
+              className="animate-spin -ml-1 mr-2 h-4 w-4"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

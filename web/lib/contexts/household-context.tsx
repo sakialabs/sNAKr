@@ -28,21 +28,24 @@ export function HouseholdProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       setError(null)
       const data = await getHouseholds()
-      setHouseholds(data.households)
+      const householdsList = data?.households || []
+      setHouseholds(householdsList)
 
       // If we have households, set the current one
-      if (data.households.length > 0) {
+      if (householdsList.length > 0) {
         // Try to restore from localStorage
         const savedHouseholdId = localStorage.getItem(STORAGE_KEY)
-        const savedHousehold = data.households.find(h => h.id === savedHouseholdId)
+        const savedHousehold = householdsList.find(h => h.id === savedHouseholdId)
         
         // Use saved household if found, otherwise use the first one
-        setCurrentHouseholdState(savedHousehold || data.households[0])
+        setCurrentHouseholdState(savedHousehold || householdsList[0])
       } else {
         setCurrentHouseholdState(null)
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load households')
+      // Don't log to console - just set user-friendly error message
+      const errorMessage = err instanceof Error ? err.message : String(err)
+      setError(errorMessage)
       setHouseholds([])
       setCurrentHouseholdState(null)
     } finally {

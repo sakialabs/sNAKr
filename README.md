@@ -18,6 +18,8 @@ sNAKr is a people-first app for shared household inventory. It learns from recei
 - [✨ What sNAKr Does](#-what-snakr-does)
 - [🌱 Why It Exists](#-why-it-exists)
 - [🚀 Quick Start](#-quick-start)
+- [📊 Project Status](#-project-status)
+- [📸 Screenshots](#-screenshots)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [📖 Documentation](#-documentation)
 - [🤝 Contributing](#-contributing)
@@ -133,6 +135,52 @@ You should see all Supabase services running (API, DB, Studio, Auth, Storage, et
 
 ---
 
+## 📸 Screenshots
+
+<details>
+<summary>🛬 Landing Page</summary>
+
+![Landing Page](docs/screenshots/web-landing.png)
+
+</details>
+
+<details>
+<summary>🏘️ Households View</summary>
+
+![Households](docs/screenshots/web-households.png)
+
+</details>
+
+<details>
+<summary>📦 Inventory Management</summary>
+
+![Inventory](docs/screenshots/web-inventory.png)
+
+</details>
+
+<details>
+<summary>🧾 Receipts</summary>
+
+![Receipts](docs/screenshots/web-receipts.png)
+
+</details>
+
+<details>
+<summary>🛒 Restock List</summary>
+
+![Restock List](docs/screenshots/web-restock.png)
+
+</details>
+
+<details>
+<summary>⚙️ Settings</summary>
+
+![Settings](docs/screenshots/web-settings.png)
+
+</details>
+
+---
+
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -216,7 +264,7 @@ cd api && black . && ruff check .
 .\scripts\dev\stop-all.ps1  # Windows
 ```
 
-See [DOCKER_SETUP.md](DOCKER_SETUP.md) for more details.
+See [docs/SETUP.md](docs/SETUP.md) for detailed setup instructions and Docker build options.
 
 ---
 

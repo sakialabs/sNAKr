@@ -140,10 +140,42 @@ export interface InviteResponse {
 }
 
 // ============================================================================
+// Invitation Types
+// ============================================================================
+
+export interface Invitation {
+  id: string
+  household_id: string
+  household_name?: string
+  inviter_id: string
+  invitee_email: string
+  role: 'member' | 'admin'
+  status: 'pending' | 'accepted' | 'declined' | 'expired'
+  token: string
+  expires_at: string
+  accepted_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface InvitationList {
+  invitations: Invitation[]
+  total: number
+}
+
+export interface InvitationAcceptResponse {
+  message: string
+  household_id: string
+  household_name: string
+  role: string
+}
+
+// ============================================================================
 // Item Types
 // ============================================================================
 
 export interface ItemCreate {
+  household_id: string
   name: string
   category: Category
   location: Location

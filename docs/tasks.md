@@ -69,19 +69,19 @@ Implementation tasks for shared household inventory intelligence.
 - [x] 1.1.3 Implement household creation UI
 - [x] 1.1.4 Implement household selection UI
 - [x] 1.1.5 Implement member invitation endpoint
-- [-] 1.1.6 Implement member invitation UI
-- [ ] 1.1.7 Implement invite acceptance flow
-- [ ] 1.1.8 Test multi-tenant isolation with RLS
+- [x] 1.1.6 Implement member invitation UI
+- [x] 1.1.7 Implement invite acceptance flow
+- [x] 1.1.8 Test multi-tenant isolation with RLS
 
 ### 1.2 Item Management
-- [ ] 1.2.1 Implement POST /items endpoint
-- [ ] 1.2.2 Implement GET /items endpoint with filters
-- [ ] 1.2.3 Implement PATCH /items/:id endpoint
-- [ ] 1.2.4 Implement DELETE /items/:id endpoint
-- [ ] 1.2.5 Create item creation UI
-- [ ] 1.2.6 Create item edit UI
-- [ ] 1.2.7 Implement category and location dropdowns
-- [ ] 1.2.8 Test item CRUD operations
+- [x] 1.2.1 Implement POST /items endpoint
+- [x] 1.2.2 Implement GET /items endpoint with filters
+- [x] 1.2.3 Implement PATCH /items/:id endpoint
+- [x] 1.2.4 Implement DELETE /items/:id endpoint
+- [x] 1.2.5 Create item creation UI
+- [x] 1.2.6 Create item edit UI
+- [x] 1.2.7 Implement category and location dropdowns
+- [x] 1.2.8 Test item CRUD operations
 
 ### 1.3 Inventory State Management
 - [ ] 1.3.1 Implement state transition logic
@@ -101,11 +101,11 @@ Implementation tasks for shared household inventory intelligence.
 - [ ] 1.4.5 Test event immutability
 
 ### 1.5 Inventory View
-- [ ] 1.5.1 Create inventory list UI with state badges
-- [ ] 1.5.2 Implement location filter (All, Fridge, Pantry, Freezer)
-- [ ] 1.5.3 Implement state filter (All, Low, Almost out, Out)
-- [ ] 1.5.4 Implement sorting (name, state, last updated)
-- [ ] 1.5.5 Create empty state with Fasoolya
+- [x] 1.5.1 Create inventory list UI with state badges
+- [x] 1.5.2 Implement location filter (All, Fridge, Pantry, Freezer)
+- [x] 1.5.3 Implement state filter (All, Low, Almost out, Out)
+- [x] 1.5.4 Implement sorting (name, state, last updated)
+- [x] 1.5.5 Create empty state with Fasoolya
 - [ ] 1.5.6 Implement item detail view
 - [ ] 1.5.7 Show recent events in item detail
 - [ ] 1.5.8 Test inventory view with multiple items

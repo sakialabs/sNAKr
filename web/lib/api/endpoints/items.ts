@@ -1,24 +1,19 @@
 /**
  * Item API Endpoints
  * 
- * Functions for managing items and inventory.
+ * Functions for managing household items and inventory.
  */
 
 import { apiClient } from '../client'
 import type {
   ItemCreate,
   ItemUpdate,
-  ItemSearch,
   Item,
   ItemList,
   ItemSearchResult,
-  InventoryFilter,
-  InventoryList,
-  QuickAction,
-  QuickActionResponse,
-  InventoryStateUpdate,
-  Inventory,
-  SuccessResponse,
+  Location,
+  State,
+  Category,
 } from '../types'
 
 // ============================================================================
@@ -28,120 +23,74 @@ import type {
 /**
  * Create a new item
  */
-export async function createItem(householdId: string, data: ItemCreate): Promise<Item> {
-  return apiClient.post<Item>('/items', {
-    body: { ...data, household_id: householdId },
-  })
+export async function createItem(data: ItemCreate): Promise<any> {
+  return apiClient.post<any>('/items', { body: data })
 }
 
 /**
- * Get all items for a household
+ * Get all items for a household with optional filters
  */
-export async function getItems(householdId: string): Promise<ItemList> {
-  return apiClient.get<ItemList>('/items', {
-    params: { household_id: householdId },
+export async function getItems(
+  householdId: string,
+  location?: Location,
+  state?: State,
+  category?: Category,
+  sortBy?: 'name' | 'state' | 'last_updated',
+  limit?: number,
+  offset?: number
+): Promise<any> {
+  const params = new URLSearchParams({
+    household_id: householdId,
   })
+  
+  if (location) params.append('location', location)
+  if (state) params.append('state', state)
+  if (category) params.append('category', category)
+  if (sortBy) params.append('sort_by', sortBy)
+  if (limit) params.append('limit', limit.toString())
+  if (offset) params.append('offset', offset.toString())
+  
+  return apiClient.get<any>(`/items?${params.toString()}`)
 }
 
 /**
  * Get a specific item by ID
  */
-export async function getItem(itemId: string): Promise<Item> {
-  return apiClient.get<Item>(`/items/${itemId}`)
+export async function getItem(itemId: string): Promise<any> {
+  return apiClient.get<any>(`/items/${itemId}`)
 }
 
 /**
  * Update an item
  */
-export async function updateItem(itemId: string, data: ItemUpdate): Promise<Item> {
-  return apiClient.patch<Item>(`/items/${itemId}`, { body: data })
+export async function updateItem(
+  itemId: string,
+  data: ItemUpdate
+): Promise<any> {
+  return apiClient.patch<any>(`/items/${itemId}`, { body: data })
 }
 
 /**
  * Delete an item
  */
-export async function deleteItem(itemId: string): Promise<SuccessResponse> {
-  return apiClient.delete<SuccessResponse>(`/items/${itemId}`)
+export async function deleteItem(itemId: string): Promise<void> {
+  await apiClient.delete(`/items/${itemId}`)
 }
 
 /**
- * Search items by name
+ * Search items by name (fuzzy search)
  */
 export async function searchItems(
   householdId: string,
-  data: ItemSearch
-): Promise<ItemSearchResult> {
-  return apiClient.post<ItemSearchResult>('/items/search', {
-    body: { ...data, household_id: householdId },
+  query: string,
+  limit?: number
+): Promise<any> {
+  const params = new URLSearchParams({
+    household_id: householdId,
+    q: query,
   })
-}
-
-// ============================================================================
-// Inventory Management
-// ============================================================================
-
-/**
- * Get inventory for a household
- */
-export async function getInventory(
-  householdId: string,
-  filter?: InventoryFilter
-): Promise<InventoryList> {
-  return apiClient.get<InventoryList>('/items/inventory', {
-    params: { household_id: householdId, ...filter },
-  })
-}
-
-/**
- * Update inventory state manually
- */
-export async function updateInventoryState(
-  itemId: string,
-  data: InventoryStateUpdate
-): Promise<Inventory> {
-  return apiClient.patch<Inventory>(`/items/${itemId}/state`, { body: data })
-}
-
-// ============================================================================
-// Quick Actions
-// ============================================================================
-
-/**
- * Mark item as used
- */
-export async function markItemUsed(itemId: string): Promise<QuickActionResponse> {
-  return apiClient.post<QuickActionResponse>(`/items/${itemId}/used`)
-}
-
-/**
- * Mark item as restocked
- */
-export async function markItemRestocked(itemId: string): Promise<QuickActionResponse> {
-  return apiClient.post<QuickActionResponse>(`/items/${itemId}/restocked`)
-}
-
-/**
- * Mark item as ran out
- */
-export async function markItemRanOut(itemId: string): Promise<QuickActionResponse> {
-  return apiClient.post<QuickActionResponse>(`/items/${itemId}/ran_out`)
-}
-
-/**
- * Perform a quick action on an item
- */
-export async function performQuickAction(
-  itemId: string,
-  action: QuickAction
-): Promise<QuickActionResponse> {
-  switch (action.action) {
-    case 'used':
-      return markItemUsed(itemId)
-    case 'restocked':
-      return markItemRestocked(itemId)
-    case 'ran_out':
-      return markItemRanOut(itemId)
-    default:
-      throw new Error(`Unknown action: ${action.action}`)
-  }
+  
+  if (limit) params.append('limit', limit.toString())
+  
+  return apiClient.get<any>(`/items/search?${params.toString()}`)
 }

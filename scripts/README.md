@@ -6,8 +6,12 @@ Development and utility scripts for sNAKr, organized by purpose.
 
 ```bash
 # First-time setup
-./scripts/setup/setup.sh              # macOS/Linux
-.\scripts\setup\setup.ps1             # Windows
+./scripts/setup/setup.sh              # macOS/Linux (interactive)
+./scripts/setup/setup.sh --lite       # Lite build (5-10 min)
+./scripts/setup/setup.sh --full       # Full build with ML (20-40 min)
+
+.\scripts\setup\setup.ps1             # Windows (interactive)
+.\scripts\setup\setup.ps1 -Lite       # Lite build (5-10 min)
 
 # Daily development
 ./scripts/dev/start-all.sh            # Start Supabase + Redis + Celery
@@ -19,8 +23,6 @@ Development and utility scripts for sNAKr, organized by purpose.
 # Utilities
 ./scripts/utils/health.sh             # Check service health
 ./scripts/utils/logs.sh [service]     # View logs
-./scripts/utils/cleanup-docker.sh     # Clean old containers
-.\scripts\utils\cleanup-docker.ps1    # Windows
 
 # Reset
 ./scripts/dev/reset.sh                # Clean slate (deletes data!)
@@ -51,8 +53,7 @@ scripts/
 │
 └── utils/                            # Utility scripts
     ├── health.sh / .ps1             # Health checks
-    ├── logs.sh / .ps1               # View logs
-    └── cleanup-docker.sh / .ps1     # Clean old containers
+    └── logs.sh / .ps1               # View logs
 ```
 
 ---
@@ -60,29 +61,42 @@ scripts/
 ## Setup Scripts
 
 ### `setup/setup.sh` / `setup.ps1`
-**Complete first-time setup**
+**Complete first-time setup with build options**
 
-Runs Supabase setup, builds Docker images, and starts all services.
+Interactive setup that lets you choose between lite (fast) or full (with ML) builds.
 
 **Usage:**
 ```bash
-# macOS/Linux
-./scripts/setup/setup.sh
+# Interactive mode - prompts you to choose
+./scripts/setup/setup.sh              # macOS/Linux
+.\scripts\setup\setup.ps1             # Windows
 
-# Windows
-.\scripts\setup\setup.ps1
+# Lite build (5-10 minutes) - no ML dependencies
+./scripts/setup/setup.sh --lite       # macOS/Linux
+.\scripts\setup\setup.ps1 -Lite       # Windows
+
+# Full build (20-40 minutes) - includes ML
+./scripts/setup/setup.sh --full       # macOS/Linux
+.\scripts\setup\setup.ps1             # Windows (default)
 ```
 
+**Build options:**
+- **LITE**: Fast build without ML dependencies (scikit-learn, pandas, etc.) - recommended for development
+- **FULL**: Complete build with all ML dependencies - needed for prediction features
+
 **What it does:**
-- Installs Supabase CLI (if needed)
-- Starts Supabase services
-- Builds Docker images
+- Checks Docker and Docker Compose
+- Creates `.env` file from template
+- Builds Docker images with chosen configuration
 - Starts all services
 - Displays connection info
 
 **Prerequisites:**
 - Docker Desktop running
 - Node.js 18+
+
+**When to rebuild:**
+If you need to switch between lite/full or rebuild containers, just run the setup script again with your desired option.
 
 ---
 
@@ -241,30 +255,6 @@ Stream logs from Docker services.
 **Available services:**
 - `redis` - Redis message broker
 - `celery` - Celery worker
-
----
-
-### `utils/cleanup-docker.sh` / `cleanup-docker.ps1`
-**Clean up old Docker containers**
-
-Removes old Docker containers and volumes from previous setup.
-
-**Usage:**
-```bash
-# macOS/Linux
-./scripts/utils/cleanup-docker.sh
-
-# Windows
-.\scripts\utils\cleanup-docker.ps1
-```
-
-**What it does:**
-- Stops old docker-compose services
-- Removes old containers (snakr-api, snakr-web, snakr-db, snakr-minio)
-- Removes old volumes (postgres_data, redis_data, minio_data)
-- Shows current running containers
-
-**Note:** Keeps Supabase containers running
 
 ---
 

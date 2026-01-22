@@ -1,4 +1,6 @@
 export { Header } from './header'
 export { Nav } from './nav'
 export { Footer } from './footer'
+export { Sidebar } from './sidebar'
+export { AppFooter } from './app-footer'
 export { AppLayout } from './app-layout'

@@ -36,7 +36,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed bottom-16 right-16 z-50 flex flex-col gap-8 pointer-events-none">
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
         <AnimatePresence>
           {toasts.map((toast) => (
             <motion.div
@@ -49,24 +49,21 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             >
               <div
                 className={`
-                  px-16 py-12 rounded-card shadow-lg border backdrop-blur-sm
+                  px-4 py-3 rounded-lg shadow-lg border backdrop-blur-sm
                   ${toast.type === 'success' ? 'bg-green-50 border-green-200 text-green-900 dark:bg-green-950 dark:border-green-800 dark:text-green-100' : ''}
                   ${toast.type === 'error' ? 'bg-red-50 border-red-200 text-red-900 dark:bg-red-950 dark:border-red-800 dark:text-red-100' : ''}
                   ${toast.type === 'info' ? 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-100' : ''}
                   ${toast.type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-900 dark:bg-yellow-950 dark:border-yellow-800 dark:text-yellow-100' : ''}
                 `}
               >
-                <div className="flex items-center gap-12">
-                  <span className="text-xl">
-                    {toast.type === 'success' && '✓'}
-                    {toast.type === 'error' && '✕'}
-                    {toast.type === 'info' && 'ℹ'}
-                    {toast.type === 'warning' && '⚠'}
-                  </span>
-                  <p className="text-sm font-medium">{toast.message}</p>
+                <div className="flex items-center gap-3">
+                  {toast.type === 'success' && <span className="text-base">✓</span>}
+                  {toast.type === 'info' && <span className="text-base">ℹ</span>}
+                  {toast.type === 'warning' && <span className="text-base">⚠</span>}
+                  <p className="text-sm font-medium flex-1">{toast.message}</p>
                   <button
                     onClick={() => removeToast(toast.id)}
-                    className="ml-8 text-current opacity-50 hover:opacity-100 transition-opacity"
+                    className="text-current opacity-50 hover:opacity-100 transition-opacity flex-shrink-0"
                   >
                     ✕
                   </button>
